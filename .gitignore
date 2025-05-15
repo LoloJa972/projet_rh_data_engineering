@@ -1,0 +1,21 @@
+# Environnements
+__pycache__/
+.env
+*.pyc
+
+# Base de données générée
+db/rh.db
+
+# Fichiers systèmes
+.DS_Store
+
+# Logs éventuels
+*.log
+
+# Environnement virtuel
+venv/
+.env/
+.venv/
+
+# Docker
+*.pid

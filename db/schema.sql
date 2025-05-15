@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS employes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom TEXT NOT NULL,
+    sexe TEXT CHECK(sexe IN ('H', 'F')) NOT NULL,
+    age INTEGER CHECK(age BETWEEN 18 AND 70) NOT NULL,
+    departement TEXT NOT NULL,
+    salaire REAL CHECK(salaire >= 0) NOT NULL
+);
