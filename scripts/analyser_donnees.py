@@ -1,36 +1,25 @@
-import pandas as pd
-from sqlalchemy import create_engine, text
 from loguru import logger
+import sqlite3
+import pandas as pd
 
-DB_PATH = "sqlite:///rh.db"
+def lancer_analyses():
+    logger.info("Lancement des analyses des données RH...")
 
-def analyse_repartition_sexe(engine):
-    query = "SELECT sexe, COUNT(*) AS nombre FROM employes GROUP BY sexe;"
-    df = pd.read_sql(query, engine)
-    logger.info("Répartition hommes/femmes :\n" + df.to_string(index=False))
-    return df
+    conn = sqlite3.connect("db/rh.db")
+    df = pd.read_sql_query("SELECT * FROM employes;", conn)
 
-def analyse_salaire_moyen_par_sexe(engine):
-    query = "SELECT sexe, ROUND(AVG(salaire), 2) AS salaire_moyen FROM employes GROUP BY sexe;"
-    df = pd.read_sql(query, engine)
-    logger.info("Salaire moyen par sexe :\n" + df.to_string(index=False))
-    return df
+    logger.info(f"Nombre d'employés : {len(df)}")
 
-def analyse_age_moyen(engine):
-    query = "SELECT ROUND(AVG(age), 2) AS age_moyen FROM employes;"
-    df = pd.read_sql(query, engine)
-    logger.info("Âge moyen des employés :\n" + df.to_string(index=False))
-    return df
+    repartition_sexe = df['sexe'].value_counts()
+    logger.info(f"Répartition hommes/femmes :\n{repartition_sexe}")
 
-def main():
-    logger.info("Début de l'analyse des données RH")
-    engine = create_engine(DB_PATH)
+    salaire_moyen = df['salaire'].mean()
+    logger.info(f"Salaire moyen : {salaire_moyen:.2f} €")
 
-    analyse_repartition_sexe(engine)
-    analyse_salaire_moyen_par_sexe(engine)
-    analyse_age_moyen(engine)
+    age_moyen = df['age'].mean()
+    logger.info(f"Âge moyen : {age_moyen:.1f} ans")
 
-    logger.info("Fin de l'analyse")
+    repartition_departement = df['departement'].value_counts()
+    logger.info(f"Répartition par département :\n{repartition_departement}")
 
-if __name__ == "__main__":
-    main()
+    conn.close()

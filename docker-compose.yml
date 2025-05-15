@@ -1,9 +1,13 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  rh_app:
+  projet_rh:
     build: .
-    container_name: rh_app_container
+    container_name: projet_rh_container
     volumes:
-      - .:/app
-    command: python analyser_donnees.py
+      - .:/app          # Pour dev, synchronisation code hôte ↔ container
+      - ./db:/app/db    # Persistance base SQLite hors du container
+      - ./data:/app/data
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python run_project.py
