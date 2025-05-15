@@ -1,21 +1,22 @@
-# Environnements
-__pycache__/
-.env
-*.pyc
-
-# Base de données générée
-db/rh.db
-
-# Fichiers systèmes
-.DS_Store
-
-# Logs éventuels
-*.log
-
 # Environnement virtuel
 venv/
-.env/
-.venv/
+venv2/
 
-# Docker
+# Fichiers Python inutiles
+__pycache__/
+*.pyc
+*.pyo
+
+# Base SQLite
+*.db
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers logs ou temporaires
+*.log
+
+# Dossiers Docker
 *.pid
+*.sock
